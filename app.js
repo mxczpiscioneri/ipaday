@@ -15,5 +15,6 @@ app.post('/beers', beers.addBeer);
 app.put('/beers/:id', beers.updateBeer);
 app.delete('/beers/:id', beers.deleteBeer);
 
-app.listen(3000);
-console.log('Listening on port 3000...');
+app.listen(process.env.PORT || 8080, function() {
+	console.log('App listening on port 8080!');
+});

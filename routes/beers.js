@@ -72,9 +72,7 @@ exports.addBeer = function(req, res) {
 
 exports.updateBeer = function(req, res) {
   if (authorization(res, req.headers.authorization)) {
-    var updatedBeerModel = new Beer(req.body);
-    console.log(updatedBeerModel);
-    Beer.findByIdAndUpdate(new ObjectId(req.params.id), updatedBeerModel, function(err, Beer) {
+    Beer.findByIdAndUpdate(new ObjectId(req.params.id), req.body, function(err, Beer) {
       if (err) {
         res.status(500);
         res.json({

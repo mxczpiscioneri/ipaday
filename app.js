@@ -1,10 +1,19 @@
 var express = require('express');
-
 var app = express();
+var bodyParser = require("body-parser");
+var beers = require('./routes/beers');
+var db = require('./mongoose');
 
-app.get('/', function(req, res) {
-    res.send('Test!');
-});
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+app.use(bodyParser.json());
+
+app.get('/beers', beers.findAll);
+app.get('/beers/:id', beers.findById);
+app.post('/beers', beers.addBeer);
+app.put('/beers/:id', beers.updateBeer);
+app.delete('/beers/:id', beers.deleteBeer);
 
 app.listen(3000);
 console.log('Listening on port 3000...');

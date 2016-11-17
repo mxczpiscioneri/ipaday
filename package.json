@@ -10,8 +10,10 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "body-parser": "~1.15.2",
-    "express": "~4.14.0"
+    "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
+    "express": "~4.14.0",
+    "mongoose": "^4.6.8"
   },
   "author": "Matheus Piscioneri <mxczpiscioneri@gmail.com> (http://matheuspiscioneri.com.br)",
   "license": "MIT",

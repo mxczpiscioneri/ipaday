@@ -1,0 +1,8 @@
+{
+  "name": "ipaday",
+  "description": "Ipa Day",
+  "repository": "https://github.com/mxczpiscioneri/promotions",
+  "logo": "http://node-js-sample.heroku.com/node.svg",
+  "keywords": ["beer", "ipa"],
+  "image": "heroku/nodejs"
+}

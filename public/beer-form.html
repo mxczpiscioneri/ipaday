@@ -1,0 +1,56 @@
+<div class="grid-row" ng-hide="beer._id">
+  <div class="grid-xs-12">
+    <h2 class="text-lg text-default">New Beer</h2>
+  </div>
+</div>
+
+<form name="form">
+  <div class="grid-row margin-bottom-xl">
+      <div class="grid-xs-12">
+        <label class="text-sm text-default">Name:</label> 
+        <input id="name" class="field text-field text-field-lg" type="text" ng-model="beer.name" required> 
+      </div>
+  </div>
+  <div class="grid-row margin-bottom-xl">
+      <div class="grid-xs-3">
+        <label class="text-sm text-default">ABV:</label> 
+        <input id="abv" class="field text-field text-field-lg" type="text" ng-model="beer.ABV" required> 
+      </div>
+      <div class="grid-xs-3">
+        <label class="text-sm text-default">IBU:</label> 
+        <input id="ibu" class="field text-field text-field-lg" type="text" ng-model="beer.IBU" required> 
+      </div>
+      <div class="grid-xs-6">
+        <label class="text-sm text-default">Style:</label> 
+        <input id="style" class="field text-field text-field-lg" type="text" ng-model="beer.style"> 
+      </div>
+  </div>
+  <div class="grid-row margin-bottom-xl">
+      <div class="grid-xs-12">
+        <label class="text-sm text-default">Details:</label> 
+        <input id="details" class="field text-field text-field-lg" type="text" ng-model="beer.details"> 
+      </div>
+  </div>
+  <div class="grid-row margin-bottom-xl">
+      <div class="grid-xs-4">
+        <label class="text-sm text-default">Image:</label>
+        <div class="btn-secondary btn-lg" ngf-select ng-model="image" name="image" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB">Select</div>
+      </div>
+      <div class="grid-xs-4">
+        <label class="text-sm text-default">Brewery:</label> 
+        <input id="brewery" class="field text-field text-field-lg" type="text" ng-model="beer.brewery"> 
+      </div>
+      <div class="grid-xs-4">
+        <label class="text-sm text-default">City:</label> 
+        <input id="city" class="field text-field text-field-lg" type="text" ng-model="beer.city"> 
+      </div>
+  </div>
+  <div class="grid-row margin-bottom-xl">
+      <div class="grid-xs-2 grid-xs-offset-8">
+        <button class="btn-lg btn-default" ng-click="back()">Back</button>
+      </div>
+      <div class="grid-xs-2">
+        <button class="btn-lg btn-primary" ng-click="saveBeer(beer)">Save</button>
+      </div>
+  </div>
+</form>

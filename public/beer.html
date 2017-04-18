@@ -1,59 +1,53 @@
 <div class="grid-row">
-  <div class="grid-xs-10">
+  <div class="grid-xs-12">
     <h2 class="text-lg text-default">{{ beer.name }} - {{ beer.style }}</h2>
-  </div>
-  <div class="grid-xs-2 padding-top-lg padding-bottom-lg">
-    <button class="btn-sm btn-secondary" ng-click="deleteBeer(beer._id)">Delete</button>
   </div>
 </div>
 
 <div ng-hide="editMode">
-  <div class="grid-row margin-bottom-xl">
-      <div class="grid-xs-3">
-        <label class="text-sm text-default">ABV:</label> 
-        <p class="text-md text-default" ng-if="beer.ABV">{{ beer.ABV }}</p>
+  <div class="grid-row">
+      <div class="grid-xs-6 grid-sm-3 margin-bottom-xl">
+        <label class="text-xs text-default">ABV:</label> 
+        <p class="text-md text-default clear-margin" ng-if="beer.ABV">{{ beer.ABV }}</p>
       </div>
-      <div class="grid-xs-3">
-        <label class="text-sm text-default">IBU:</label> 
-        <p class="text-md text-default" ng-if="beer.IBU">{{ beer.IBU }}</p>
+      <div class="grid-xs-6 grid-sm-3 margin-bottom-xl">
+        <label class="text-xs text-default">IBU:</label> 
+        <p class="text-md text-default clear-margin" ng-if="beer.IBU">{{ beer.IBU }}</p>
       </div>
-      <div class="grid-xs-6">
-        <label class="text-sm text-default">Style:</label> 
-        <p class="text-md text-default" ng-if="beer.style">{{ beer.style }} </p>
-      </div>
-  </div>
-  <div class="grid-row margin-bottom-xl">
-      <div class="grid-xs-12">
-        <label class="text-sm text-default">Details:</label> 
-        <p class="text-md text-default" ng-if="beer.details">{{ beer.details }} </p> 
+      <div class="grid-xs-12 grid-sm-6 margin-bottom-xl">
+        <label class="text-xs text-default">Style:</label> 
+        <p class="text-md text-default clear-margin" ng-if="beer.style">{{ beer.style }} </p>
       </div>
   </div>
-  <div class="grid-row margin-bottom-xl">
-      <div class="grid-xs-4">
-        <label class="text-sm text-default">Image:</label> 
+  <div class="grid-row">
+      <div class="grid-xs-12 margin-bottom-xl">
+        <label class="text-xs text-default">Details:</label> 
+        <p class="text-md text-default clear-margin" ng-if="beer.details">{{ beer.details }} </p> 
+      </div>
+  </div>
+  <div class="grid-row">
+      <div class="grid-xs-6 margin-bottom-xl">
+        <label class="text-xs text-default">Brewery:</label> 
+        <p class="text-md text-default clear-margin" ng-if="beer.brewery">{{ beer.brewery }} </p>
+      </div>
+      <div class="grid-xs-6 margin-bottom-xl">
+        <label class="text-xs text-default">City:</label> 
+        <p class="text-md text-default clear-margin" ng-if="beer.city">{{ beer.city }}</p>
+      </div>
+  </div>
+  <div class="grid-row">
+      <div class="grid-xs-12 margin-bottom-xl">
         <img ng-if="beer.image" src="/uploads/{{ beer.image }}" alt="{{ beer.name }}" class="img">
-      </div>
-      <div class="grid-xs-4">
-        <label class="text-sm text-default">Brewery:</label> 
-        <p class="text-md text-default" ng-if="beer.brewery">{{ beer.brewery }} </p>
-      </div>
-      <div class="grid-xs-4">
-        <label class="text-sm text-default">City:</label> 
-        <p class="text-md text-default" ng-if="beer.city">{{ beer.city }}</p>
       </div>
   </div>
 
-  <div class="grid-row margin-bottom-xl">
-    <div class="grid-xs-2 grid-xs-offset-8">
-      <button class="btn-lg btn-default" ng-click="go('/')">Back</button>
+  <div class="grid-row">
+    <div class="grid-xs-4 grid-sm-2 margin-bottom-xl">
+      <button class="btn-lg btn-secondary" ng-click="deleteBeer(beer._id)">Delete</button>
     </div>
-    <div class="grid-xs-2">
+    <div class="grid-xs-8 grid-sm-3 grid-sm-offset-7 margin-bottom-xl">
       <button class="btn-lg btn-primary" ng-click="go('/beers/edit/'+beer._id)">Edit</button>
     </div>
   </div>
   
-</div>
-
-<!-- beer form -->
-<div ng-include="beerFormUrl">
 </div>

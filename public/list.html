@@ -1,25 +1,26 @@
 <div class="grid-row">
-  <div class="grid-xs-10">
+  <div class="grid-xs-6 grid-sm-10">
     <h2 class="text-lg text-default">All Beers</h2>
   </div>
-  <div class="grid-xs-2 padding-top-lg padding-bottom-lg">
+  <div class="grid-xs-6 grid-sm-2 padding-top-lg padding-bottom-lg">
     <button class="btn-sm btn-primary" ng-click="go('/beers/new')">New</button>
   </div>
 </div>
 
 <div class="grid-row">
   <ul class="list list-horizontal">
-    <li class="list-item grid-xs-3 margin-bottom-xl" ng-repeat="beer in beers | orderBy:'name'">
+    <li class="list-item grid-xs-6 grid-sm-4 grid-md-3 grid-lg-2 margin-bottom-xl" ng-repeat="beer in beers | orderBy:'name'">
       <div class="align-center">
         <a ng-href="/beers/{{beer._id}}">
           <img ng-if="beer.image" src="/uploads/{{ beer.image }}" alt="{{ beer.name }}" class="img">
         </a>
       </div>
       <div>
-        <p class="clear-margin"><a class="text-sm text-primary" ng-href="/beers/{{beer._id}}">{{ beer.name }}</a></p>
-        <p class="text-xs text-default clear-margin">ABV: {{ beer.ABV }} IBU: {{ beer.IBU }}</p>
-        <p class="text-xs text-default clear-margin">{{ beer.style }} ({{ beer.details }})</p>
-        <p class="text-xs text-default clear-margin">{{ beer.brewery }} - {{ beer.city }}</p>
+        <p class="margin-top-xs margin-bottom-xs"><a class="text-sm text-primary" ng-href="/beers/{{beer._id}}">{{ beer.name }}</a></p>
+        <p class="text-xs text-default margin-top-xs margin-bottom-xs">ABV: {{ beer.ABV }} IBU: {{ beer.IBU }}</p>
+        <p class="text-xs text-default margin-top-xs margin-bottom-xs">{{ beer.style }}</p>
+        <p class="text-xs text-default margin-top-xs margin-bottom-xs">{{ beer.brewery }}</p>
+        <p class="text-xs text-default margin-top-xs margin-bottom-xs">{{ beer.city }}</p>
       </div>
     </li>
   </ul>

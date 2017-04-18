@@ -12,11 +12,15 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       })
       .when("/beers/new", {
         controller: "NewBeerController",
-        templateUrl: "beer-form.html"
+        templateUrl: "beer-add.html"
       })
       .when("/beers/:beerId", {
-        controller: "EditBeerController",
+        controller: "ViewBeerController",
         templateUrl: "beer.html"
+      })
+      .when("/beers/edit/:beerId", {
+        controller: "EditBeerController",
+        templateUrl: "beer-edit.html"
       })
       .otherwise({
         redirectTo: "/"
@@ -89,10 +93,6 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
     $scope.saveBeer = function(beer) {
       beer.image = slug($scope.beer.name) + '.' + $scope.image.name.split('.').pop();
       Beers.createBeer(beer).then(function(doc) {
-        console.log($scope);
-        console.log($scope.image);
-        console.log($scope.beer.image);
-        console.log(beer);
         if ($scope.form.image.$valid && $scope.image) {
           upload(Upload, $scope.image, $scope.beer.image);
         }
@@ -103,7 +103,7 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       });
     }
   }])
-  .controller("EditBeerController", ['$scope', '$rootScope', '$location', '$routeParams', 'Beers', 'Upload', function($scope, $rootScope, $location, $routeParams, Beers, Upload) {
+  .controller("ViewBeerController", ['$scope', '$location', '$routeParams', 'Beers', function($scope, $location, $routeParams, Beers) {
     Beers.getBeer($routeParams.beerId).then(function(doc) {
       $scope.beer = doc.data;
     }, function(response) {
@@ -114,37 +114,34 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       $location.path(path);
     };
 
-    $scope.toggleEdit = function() {
-      $scope.editMode = true;
-      $scope.beerFormUrl = "beer-form.html";
-    }
-
-    $scope.back = function() {
-      $scope.editMode = false;
-      $scope.beerFormUrl = "";
-    }
-
-    $scope.saveBeer = function(beer) {
-      console.log($scope);
-      console.log($scope.image);
-      console.log($scope.beer.image);
-      console.log($rootScope);
-      console.log($rootScope.image);
-      console.log($rootScope.beer.image);
-      console.log(beer);
-      if ($scope.form.image.$valid && $scope.image) {
-        upload(Upload, $scope.image, $scope.beer.image);
-      }
-      Beers.editBeer(beer);
-      $scope.editMode = false;
-      $scope.beerFormUrl = "";
-    }
-
     $scope.deleteBeer = function(beerId) {
       if (confirm("Delete?")) {
         Beers.deleteBeer(beerId);
         $location.path("/");
       }
+    }
+  }])
+  .controller("EditBeerController", ['$scope', '$location', '$routeParams', 'Beers', 'Upload', function($scope, $location, $routeParams, Beers, Upload) {
+    Beers.getBeer($routeParams.beerId).then(function(doc) {
+      $scope.beer = doc.data;
+    }, function(response) {
+      alert(response);
+    });
+
+    $scope.go = function(path) {
+      $location.path(path);
+    };
+
+    $scope.saveBeer = function(beer) {
+      console.log($scope.image);
+      console.log($scope.beer.image);
+      console.log($scope.form);
+      console.log($scope.form.image);
+      if ($scope.form.image.$valid && $scope.image) {
+        upload(Upload, $scope.image, $scope.beer.image);
+      }
+      Beers.editBeer(beer);
+      $location.path("/");
     }
   }]);
 

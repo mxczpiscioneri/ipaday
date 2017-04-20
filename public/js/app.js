@@ -81,6 +81,12 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
   .controller("ListController", function(beers, $scope, $location) {
     $scope.beers = beers.data;
 
+    equalHeight("product");
+
+    window.onresize = function() {
+      equalHeight("product");
+    };
+
     $scope.go = function(path) {
       $location.path(path);
     };
@@ -133,15 +139,12 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
     };
 
     $scope.saveBeer = function(beer) {
-      console.log($scope.image);
-      console.log($scope.beer.image);
-      console.log($scope.form);
-      console.log($scope.form.image);
       if ($scope.form.image.$valid && $scope.image) {
         upload(Upload, $scope.image, $scope.beer.image);
       }
       Beers.editBeer(beer);
-      $location.path("/");
+      var beerUrl = "/beers/" + beer._id;
+      $location.path(beerUrl);
     }
   }]);
 
@@ -178,4 +181,19 @@ function slug(str) {
     .replace(/-+/g, '-'); // collapse dashes
 
   return str;
+}
+
+function equalHeight(className) {
+  var div = document.getElementsByClassName(className);
+  var tallest = 0;
+  for (i = 0; i < div.length; i++) {
+    div[i].style.height = '';
+    var ele = div[i];
+    var eleHeight = ele.offsetHeight;
+    tallest = (eleHeight > tallest ? eleHeight : tallest);
+  }
+  var findClass = document.getElementsByClassName(className);
+  for (i = 0; i < findClass.length; i++) {
+    findClass[i].style.height = tallest + "px";
+  }
 }

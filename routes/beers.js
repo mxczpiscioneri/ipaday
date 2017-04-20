@@ -74,10 +74,15 @@ exports.addBeer = function(req, res) {
 exports.upload = function(req, res) {
   if (authorization(res, req.headers.authorization)) {
     var beerName = req.body.beername;
-    var temporario = req.files.file.path;
-    var novo = './public/uploads/' + beerName;
+    var tempPath = req.files.file.path;
+    var newPath = './public/uploads/';
+    var newPathComplete = newPath + beerName;
 
-    fs.rename(temporario, novo, function(err) {
+    if (!fs.existsSync(newPath)) {
+      fs.mkdirSync(newPath);
+    }
+
+    fs.rename(tempPath, newPathComplete, function(err) {
       if (err) {
         res.status(500);
         res.json({
@@ -87,7 +92,7 @@ exports.upload = function(req, res) {
       } else {
         res.json({
           type: true,
-          file: novo
+          file: newPathComplete
         });
       }
     });

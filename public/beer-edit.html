@@ -1,4 +1,4 @@
-<form name="form">
+<form name="form" class="margin-top-lg">
   <div class="grid-row margin-bottom-xl">
       <div class="grid-xs-12">
         <label class="text-sm text-default">Name:</label> 
@@ -26,17 +26,21 @@
       </div>
   </div>
   <div class="grid-row">
-      <div class="grid-xs-12 grid-sm-4 margin-bottom-xl">
-        <label class="text-sm text-default">Image:</label>
-        <div class="btn-secondary btn-sm" ngf-select ng-model="image" name="image" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB">Select</div>
-      </div>
-      <div class="grid-xs-6 grid-sm-4 margin-bottom-xl">
+      <div class="grid-xs-5 margin-bottom-xl">
         <label class="text-sm text-default">Brewery:</label> 
         <input id="brewery" class="field text-field text-field-lg" type="text" ng-model="beer.brewery"> 
       </div>
-      <div class="grid-xs-6 grid-sm-4 margin-bottom-xl">
+      <div class="grid-xs-5 margin-bottom-xl">
         <label class="text-sm text-default">City:</label> 
         <input id="city" class="field text-field text-field-lg" type="text" ng-model="beer.city"> 
+      </div>
+      <div class="grid-xs-2 margin-bottom-xl">
+        <label class="text-sm text-default">Year:</label> 
+        <input id="year" class="field text-field text-field-lg" type="text" ng-model="beer.year"> 
+      </div>
+      <div class="grid-xs-12 grid-sm-4 margin-bottom-xl">
+        <label class="text-sm text-default">Image:</label>
+        <div class="btn-secondary btn-sm" ngf-select ng-model="image" name="image" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB">Select</div>
       </div>
   </div>
   <div class="grid-row margin-bottom-xl">

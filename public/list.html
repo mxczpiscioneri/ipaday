@@ -13,7 +13,7 @@
       <div class="product padding-lg">
         <div class="align-center">
           <a ng-href="/beers/{{beer._id}}">
-            <img ng-if="beer.image" src="/uploads/{{ beer.image }}" alt="{{ beer.name }}" class="img">
+            <img ng-if="beer.image" src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img">
           </a>
         </div>
         <div>

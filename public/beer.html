@@ -37,7 +37,7 @@
   </div>
   <div class="grid-row">
       <div class="grid-xs-12 margin-bottom-xl">
-        <img ng-if="beer.image" ng-src="/uploads/{{ beer.image }}" alt="{{ beer.name }}" class="img">
+        <img ng-if="beer.image" ng-src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img">
       </div>
   </div>
 

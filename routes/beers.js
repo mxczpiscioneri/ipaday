@@ -2,6 +2,9 @@ var mongoose = require("mongoose");
 var ObjectId = mongoose.Types.ObjectId;
 var Beer = require('../models/Beer');
 var fs = require('fs');
+var AWS = require('aws-sdk');
+var dotenv = require('dotenv');
+dotenv.load();
 
 exports.findById = function(req, res) {
   Beer.findById(new ObjectId(req.params.id), function(err, Beer) {
@@ -73,16 +76,12 @@ exports.addBeer = function(req, res) {
 
 exports.upload = function(req, res) {
   if (authorization(res, req.headers.authorization)) {
-    var beerName = req.body.beername;
-    var tempPath = req.files.file.path;
-    var newPath = './public/uploads/';
-    var newPathComplete = newPath + beerName;
+    AWS.config.update({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    });
 
-    if (!fs.existsSync(newPath)) {
-      fs.mkdirSync(newPath);
-    }
-
-    fs.rename(tempPath, newPathComplete, function(err) {
+    fs.readFile(req.files.file.path, function(err, data) {
       if (err) {
         res.status(500);
         res.json({
@@ -90,13 +89,24 @@ exports.upload = function(req, res) {
           data: "Error occured: " + err
         });
       } else {
-        res.json({
-          type: true,
-          file: newPathComplete
+        var base64data = new Buffer(data, 'binary');
+
+        var s3 = new AWS.S3();
+        s3.putObject({
+          Bucket: process.env.S3_BUCKET,
+          Key: req.body.beername,
+          Body: base64data,
+          ACL: 'public-read'
+        }, function(resp) {
+          res.json({
+            type: true,
+            data: arguments
+          });
         });
       }
     });
   }
+
 }
 
 exports.updateBeer = function(req, res) {
@@ -128,7 +138,6 @@ exports.updateBeer = function(req, res) {
 exports.deleteBeer = function(req, res) {
   if (authorization(res, req.headers.authorization)) {
     var beerId = req.params.id;
-    deleteImage(beerId);
     Beer.findByIdAndRemove(new Object(beerId), function(err, Beer) {
       if (err) {
         res.status(500);
@@ -137,9 +146,26 @@ exports.deleteBeer = function(req, res) {
           data: "Error occured: " + err
         });
       } else {
-        res.json({
-          type: true,
-          data: "Beer: " + beerId + " deleted successfully"
+        var s3 = new AWS.S3();
+
+        var deleteParam = {
+          Bucket: process.env.S3_BUCKET,
+          Key: Beer.image
+        };
+
+        s3.deleteObject(deleteParam, function(err, data) {
+          if (err) {
+            res.status(500);
+            res.json({
+              type: false,
+              data: "Error occured: " + err
+            });
+          } else {
+            res.json({
+              type: true,
+              data: "Beer: " + beerId + " deleted successfully"
+            });
+          }
         });
       }
     });
@@ -158,16 +184,6 @@ function authorization(res, headersAuthorization) {
     return false;
   }
   return true;
-}
-
-function deleteImage(beerId) {
-  Beer.findById(new ObjectId(beerId), function(err, Beer) {
-    if (!err) {
-      if (Beer) {
-        fs.unlink('./public/uploads/' + Beer.image);
-      }
-    }
-  });
 }
 
 function slug(str) {

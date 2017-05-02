@@ -12,12 +12,12 @@
     <li class="list-item grid-xs-12 grid-sm-6 grid-md-4 grid-lg-3 margin-bottom-lg" ng-repeat="beer in beers | orderBy:'name'">
       <div class="product padding-lg">
         <div class="align-center">
-          <a ng-href="/beers/{{beer._id}}">
+          <a ng-href="/beers/view/{{beer._id}}">
             <img ng-if="beer.image" src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img">
           </a>
         </div>
         <div>
-          <p class="margin-top-xs margin-bottom-xs"><a class="text-sm text-primary" ng-href="/beers/{{beer._id}}">{{ beer.name }}</a></p>
+          <p class="margin-top-xs margin-bottom-xs"><a class="text-sm text-primary" ng-href="/beers/view/{{beer._id}}">{{ beer.name }}</a></p>
           <p class="text-xs text-default margin-top-xs margin-bottom-xs">ABV: {{ beer.ABV }} IBU: {{ beer.IBU }}</p>
           <p class="text-xs text-default margin-top-xs margin-bottom-xs">{{ beer.style }}</p>
           <p class="text-xs text-default margin-top-xs margin-bottom-xs">{{ beer.brewery }}</p>

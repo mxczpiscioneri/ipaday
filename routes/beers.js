@@ -47,7 +47,31 @@ exports.findAll = function(req, res) {
       } else {
         res.json({
           type: false,
-          data: "Beer: " + req.params.id + " not found"
+          data: "Beers: not found"
+        });
+      }
+    }
+  });
+}
+
+exports.findYear = function(req, res) {
+  Beer.find({ year:req.params.year }, function(err, Beer) {
+    if (err) {
+      res.status(500);
+      res.json({
+        type: false,
+        data: "Error occured: " + err
+      });
+    } else {
+      if (Beer) {
+        res.json({
+          type: true,
+          data: Beer
+        });
+      } else {
+        res.json({
+          type: false,
+          data: "Beers: " + req.params.year + " not found"
         });
       }
     }
@@ -106,7 +130,6 @@ exports.upload = function(req, res) {
       }
     });
   }
-
 }
 
 exports.updateBeer = function(req, res) {

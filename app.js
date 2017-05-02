@@ -16,7 +16,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get('/api/beers', beers.findAll);
-app.get('/api/beers/:id', beers.findById);
+app.get('/api/beers/:year', beers.findYear);
+app.get('/api/beers/view/:id', beers.findById);
 app.post('/api/beers', beers.addBeer);
 app.post('/api/beers/upload', multipartMiddleware, beers.upload);
 app.put('/api/beers/:id', beers.updateBeer);

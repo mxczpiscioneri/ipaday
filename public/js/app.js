@@ -1,20 +1,19 @@
 angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider
-      .when("/", {
-        templateUrl: "list.html",
+      .when("/beers", {
         controller: "ListController",
-        resolve: {
-          beers: function(Beers) {
-            return Beers.getBeers();
-          }
-        }
+        templateUrl: "list.html"
+      })
+      .when("/beers/:year", {
+        controller: "ListController",
+        templateUrl: "list.html"
       })
       .when("/beers/new", {
         controller: "NewBeerController",
         templateUrl: "beer-add.html"
       })
-      .when("/beers/:beerId", {
+      .when("/beers/view/:beerId", {
         controller: "ViewBeerController",
         templateUrl: "beer.html"
       })
@@ -23,13 +22,18 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
         templateUrl: "beer-edit.html"
       })
       .otherwise({
-        redirectTo: "/"
+        redirectTo: "/beers"
       });
     $locationProvider.html5Mode(true);
   })
   .service("Beers", function($http) {
-    this.getBeers = function() {
-      return $http.get("/api/beers").
+    this.getBeers = function(year) {
+      if (year) {
+        var url = "/api/beers/" + year;
+      } else {
+        var url = "/api/beers";
+      }
+      return $http.get(url).
       then(function(response) {
         return response.data;
       }, function(response) {
@@ -46,7 +50,7 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       });
     }
     this.getBeer = function(beerId) {
-      var url = "/api/beers/" + beerId;
+      var url = "/api/beers/view/" + beerId;
       return $http.get(url).
       then(function(response) {
         return response.data;
@@ -93,9 +97,13 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       });
     }
   })
-  .controller("ListController", function(beers, $scope, $location) {
+  .controller("ListController", function($scope, $location, $routeParams, Beers) {
     $scope.URL_S3 = "https://s3-sa-east-1.amazonaws.com/ipaday/";
-    $scope.beers = beers.data;
+    Beers.getBeers($routeParams.year).then(function(beers) {
+      $scope.beers = beers.data;
+    }, function(response) {
+      alert(response);
+    });
 
     equalHeight("product");
 
@@ -160,7 +168,7 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
         Beers.upload(Upload, $scope.image, $scope.beer.image);
       }
       Beers.editBeer(beer);
-      var beerUrl = "/beers/" + beer._id;
+      var beerUrl = "/beers/view/" + beer._id;
       $location.path(beerUrl);
     }
   }]);

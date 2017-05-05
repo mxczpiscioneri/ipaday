@@ -12,3 +12,7 @@
 	-moz-transform: translateY(-5px);
 	transform: translateY(-5px);
 }
+
+.clear-decoration {
+	text-decoration: none;
+}

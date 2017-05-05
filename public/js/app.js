@@ -5,13 +5,13 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
         controller: "ListController",
         templateUrl: "list.html"
       })
-      .when("/beers/:year", {
-        controller: "ListController",
-        templateUrl: "list.html"
-      })
       .when("/beers/new", {
         controller: "NewBeerController",
         templateUrl: "beer-add.html"
+      })
+      .when("/beers/:year", {
+        controller: "ListController",
+        templateUrl: "list.html"
       })
       .when("/beers/view/:beerId", {
         controller: "ViewBeerController",
@@ -33,52 +33,50 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       } else {
         var url = "/api/beers";
       }
-      return $http.get(url).
-      then(function(response) {
-        return response.data;
-      }, function(response) {
-        alert("Error finding Beers.");
-      });
+      return $http.get(url)
+        .then(function(response) {
+          return response.data;
+        }, function(response) {
+          return null;
+        });
     }
     this.createBeer = function(beer) {
       $http.defaults.headers.common['Authorization'] = 'bXhjenBpc2Npb25lcmk6bXhjenBhc3NwaXNjaW9uZXJp';
-      return $http.post("/api/beers", beer).
-      then(function(response) {
-        return response;
-      }, function(response) {
-        alert("Error creating beer.");
-      });
+      return $http.post("/api/beers", beer)
+        .then(function(response) {
+          return response;
+        }, function(response) {
+          alert("Error creating beer.");
+        });
     }
     this.getBeer = function(beerId) {
       var url = "/api/beers/view/" + beerId;
-      return $http.get(url).
-      then(function(response) {
-        return response.data;
-      }, function(response) {
-        alert("Error finding this beer.");
-      });
+      return $http.get(url)
+        .then(function(response) {
+          return response.data;
+        }, function(response) {
+          return null;
+        });
     }
     this.editBeer = function(beer) {
       var url = "/api/beers/" + beer._id;
       $http.defaults.headers.common['Authorization'] = 'bXhjenBpc2Npb25lcmk6bXhjenBhc3NwaXNjaW9uZXJp';
-      return $http.put(url, beer).
-      then(function(response) {
-        return response;
-      }, function(response) {
-        alert("Error editing this beer.");
-        console.log(response);
-      });
+      return $http.put(url, beer)
+        .then(function(response) {
+          return response;
+        }, function(response) {
+          alert("Error editing this beer.");
+        });
     }
     this.deleteBeer = function(beerId) {
       var url = "/api/beers/" + beerId;
       $http.defaults.headers.common['Authorization'] = 'bXhjenBpc2Npb25lcmk6bXhjenBhc3NwaXNjaW9uZXJp';
-      return $http.delete(url).
-      then(function(response) {
-        return response;
-      }, function(response) {
-        alert("Error deleting this beer.");
-        console.log(response);
-      });
+      return $http.delete(url)
+        .then(function(response) {
+          return response;
+        }, function(response) {
+          alert("Error deleting this beer.");
+        });
     }
     this.upload = function(Upload, file, beername) {
       Upload.upload({
@@ -99,51 +97,48 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
   })
   .controller("ListController", function($scope, $location, $routeParams, Beers) {
     $scope.URL_S3 = "https://s3-sa-east-1.amazonaws.com/ipaday/";
-    Beers.getBeers($routeParams.year).then(function(beers) {
-      $scope.beers = beers.data;
-    }, function(response) {
-      alert(response);
-    });
+    Beers.getBeers($routeParams.year)
+      .then(function(beers) {
+        if (beers && beers.data.length > 0) {
+          $scope.beers = beers.data;
+        } else {
+          alert("Error finding Beers.");
+          $location.path("/");
+        }
+      });
 
     equalHeight("product");
 
     window.onresize = function() {
       equalHeight("product");
     };
-
-    $scope.go = function(path) {
-      $location.path(path);
-    };
   })
-  .controller("NewBeerController", ['$scope', '$location', 'Beers', 'Upload', function($scope, $location, Beers, Upload) {
-    $scope.back = function() {
-      $location.path("/");
-    }
-
+  .controller("NewBeerController", function($scope, $location, Beers, Upload) {
     $scope.saveBeer = function(beer) {
       beer.image = slug($scope.beer.name) + '-' + $scope.beer.year + '.' + $scope.image.name.split('.').pop();
-      Beers.createBeer(beer).then(function(doc) {
-        if ($scope.form.image.$valid && $scope.image) {
-          Beers.upload(Upload, $scope.image, beer.image);
-        }
-        var beerUrl = "/beers/" + doc.data.data._id;
-        $location.path(beerUrl);
-      }, function(response) {
-        alert(response);
-      });
+      Beers.createBeer(beer)
+        .then(function(doc) {
+          if ($scope.form.image.$valid && $scope.image) {
+            Beers.upload(Upload, $scope.image, beer.image);
+          }
+          var beerUrl = "/beers/" + doc.data.data._id;
+          $location.path(beerUrl);
+        }, function(response) {
+          alert(response);
+        });
     }
-  }])
-  .controller("ViewBeerController", ['$scope', '$location', '$routeParams', 'Beers', function($scope, $location, $routeParams, Beers) {
+  })
+  .controller("ViewBeerController", function($scope, $location, $routeParams, Beers) {
     $scope.URL_S3 = "https://s3-sa-east-1.amazonaws.com/ipaday/";
-    Beers.getBeer($routeParams.beerId).then(function(doc) {
-      $scope.beer = doc.data;
-    }, function(response) {
-      alert(response);
-    });
-
-    $scope.go = function(path) {
-      $location.path(path);
-    };
+    Beers.getBeer($routeParams.beerId)
+      .then(function(doc) {
+        if (doc) {
+          $scope.beer = doc.data;
+        } else {
+          alert("Error finding this beer.");
+          $location.path("/");
+        }
+      });
 
     $scope.deleteBeer = function(beerId) {
       if (confirm("Delete?")) {
@@ -151,17 +146,14 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
         $location.path("/");
       }
     }
-  }])
-  .controller("EditBeerController", ['$scope', '$location', '$routeParams', 'Beers', 'Upload', function($scope, $location, $routeParams, Beers, Upload) {
-    Beers.getBeer($routeParams.beerId).then(function(doc) {
-      $scope.beer = doc.data;
-    }, function(response) {
-      alert(response);
-    });
-
-    $scope.go = function(path) {
-      $location.path(path);
-    };
+  })
+  .controller("EditBeerController", function($scope, $location, $routeParams, Beers, Upload) {
+    Beers.getBeer($routeParams.beerId)
+      .then(function(doc) {
+        $scope.beer = doc.data;
+      }, function(response) {
+        alert(response);
+      });
 
     $scope.saveBeer = function(beer) {
       if ($scope.form.image.$valid && $scope.image) {
@@ -171,7 +163,7 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       var beerUrl = "/beers/view/" + beer._id;
       $location.path(beerUrl);
     }
-  }]);
+  });
 
 function slug(str) {
   str = str.replace(/^\s+|\s+$/g, ''); // trim

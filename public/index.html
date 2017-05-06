@@ -20,16 +20,16 @@
     <script src="/js/app.js"></script>
   </head>
 
-  <body>
-    <header class="grid-container-fluid bg-primary">
+  <body scroll>
+    <header class="grid-container-fluid bg-primary header" ng-class="{sticky:stickyClass}">
       <div class="grid-row">
         <div class="grid-xs-12 align-center">
-          <a href="/" class="block"><img src="/images/logo.jpg" alt="" class="img"></a>
+          <a href="/" class="block"><img src="/images/logo.jpg" alt="IPADAY" class="img logo"></a>
         </div>
       </div>
     </header>
 
-    <div class="grid-container" ng-view></div>
+    <div class="grid-container content" ng-view></div>
 
   </body>
 </html>

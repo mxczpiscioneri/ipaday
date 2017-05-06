@@ -163,6 +163,18 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       var beerUrl = "/beers/view/" + beer._id;
       $location.path(beerUrl);
     }
+  })
+  .directive("scroll", function($window) {
+    return function(scope, element, attrs) {
+      angular.element($window).bind("scroll", function() {
+        if (this.pageYOffset >= 145) {
+          scope.stickyClass = true;
+        } else {
+          scope.stickyClass = false;
+        }
+        scope.$apply();
+      });
+    };
   });
 
 function slug(str) {

@@ -1,57 +1,52 @@
 <div class="grid-row">
   <div class="grid-xs-12">
-    <h2 class="text-lg text-default">{{ beer.name }} - {{ beer.style }}</h2>
+    <h2 class="text-xl text-default">{{ beer.name }} - {{ beer.brewery }}</h2>
   </div>
 </div>
-
-<div ng-hide="editMode">
-  <div class="grid-row">
-      <div class="grid-xs-6 grid-sm-3 margin-bottom-xl">
-        <label class="text-xs text-default">ABV:</label> 
-        <p class="text-md text-default clear-margin" ng-if="beer.ABV">{{ beer.ABV }}</p>
-      </div>
-      <div class="grid-xs-6 grid-sm-3 margin-bottom-xl">
-        <label class="text-xs text-default">IBU:</label> 
-        <p class="text-md text-default clear-margin" ng-if="beer.IBU">{{ beer.IBU }}</p>
-      </div>
-      <div class="grid-xs-12 grid-sm-6 margin-bottom-xl">
-        <label class="text-xs text-default">Style:</label> 
-        <p class="text-md text-default clear-margin" ng-if="beer.style">{{ beer.style }} </p>
-      </div>
+<div class="grid-row">
+  <div class="grid-xs-6 grid-sm-3 margin-bottom-xl">
+    <label class="text-xs text-default">ABV:</label>
+    <p class="text-md text-default clear-margin" ng-if="beer.ABV">{{ beer.ABV }}</p>
   </div>
-  <div class="grid-row">
-      <div class="grid-xs-12 margin-bottom-xl">
-        <label class="text-xs text-default">Details:</label> 
-        <p class="text-md text-default clear-margin" ng-if="beer.details">{{ beer.details }} </p> 
-      </div>
+  <div class="grid-xs-6 grid-sm-3 margin-bottom-xl">
+    <label class="text-xs text-default">IBU:</label>
+    <p class="text-md text-default clear-margin" ng-if="beer.IBU">{{ beer.IBU }}</p>
   </div>
-  <div class="grid-row">
-      <div class="grid-xs-5 margin-bottom-xl">
-        <label class="text-xs text-default">Brewery:</label> 
-        <p class="text-md text-default clear-margin" ng-if="beer.brewery">{{ beer.brewery }} </p>
-      </div>
-      <div class="grid-xs-5 margin-bottom-xl">
-        <label class="text-xs text-default">City:</label> 
-        <p class="text-md text-default clear-margin" ng-if="beer.city">{{ beer.city }}</p>
-      </div>
-      <div class="grid-xs-2 margin-bottom-xl">
-        <label class="text-xs text-default">Year:</label> 
-        <p class="text-md text-default clear-margin" ng-if="beer.year">{{ beer.year }}</p>
-      </div>
+  <div class="grid-xs-12 grid-sm-6 margin-bottom-xl">
+    <label class="text-xs text-default">Style:</label>
+    <p class="text-md text-default clear-margin" ng-if="beer.style">{{ beer.style }} </p>
   </div>
-  <div class="grid-row">
-      <div class="grid-xs-12 margin-bottom-xl">
-        <img ng-if="beer.image" ng-src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img">
-      </div>
+</div>
+<div class="grid-row">
+  <div class="grid-xs-12 margin-bottom-xl">
+    <label class="text-xs text-default">Details:</label>
+    <p class="text-md text-default clear-margin" ng-if="beer.details">{{ beer.details }} </p>
   </div>
-
-  <div class="grid-row">
-    <div class="grid-xs-4 grid-sm-2 margin-bottom-xl">
-      <button class="btn-lg btn-secondary" ng-click="deleteBeer(beer._id)">Delete</button>
-    </div>
-    <div class="grid-xs-8 grid-sm-3 grid-sm-offset-7 margin-bottom-xl">
-      <a href="/beers/edit/{{ beer._id }}" class="btn-lg btn-primary clear-decoration">Edit</a>
-    </div>
+</div>
+<div class="grid-row">
+  <div class="grid-xs-6 grid-md-5 margin-bottom-xl">
+    <label class="text-xs text-default">Brewery:</label>
+    <p class="text-md text-default clear-margin" ng-if="beer.brewery">{{ beer.brewery }} </p>
   </div>
-  
+  <div class="grid-xs-6 grid-md-5 margin-bottom-xl">
+    <label class="text-xs text-default">City:</label>
+    <p class="text-md text-default clear-margin" ng-if="beer.city">{{ beer.city }}</p>
+  </div>
+  <div class="grid-xs-12 grid-md-2 margin-bottom-xl">
+    <label class="text-xs text-default">Event year:</label>
+    <p class="text-md text-default clear-margin" ng-if="beer.year">{{ beer.year }}</p>
+  </div>
+</div>
+<div class="grid-row">
+  <div class="grid-xs-10 grid-xs-offset-1 grid-sm-8 grid-sm-offset-2 grid-md-6 grid-md-offset-3 grid-lg-4 grid-lg-offset-4 margin-bottom-xl">
+    <img ng-if="beer.image" ng-src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img">
+  </div>
+</div>
+<div class="grid-row">
+  <div class="grid-xs-4 grid-sm-2 margin-bottom-xl">
+    <button class="btn-lg btn-default" ng-click="deleteBeer(beer._id)">Delete</button>
+  </div>
+  <div class="grid-xs-8 grid-sm-3 grid-sm-offset-7 margin-bottom-xl">
+    <a href="/beers/edit/{{ beer._id }}" class="btn-lg btn-primary clear-decoration">Edit</a>
+  </div>
 </div>

@@ -158,12 +158,19 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
       });
 
     $scope.saveBeer = function(beer) {
-      if ($scope.form.image.$valid && $scope.image) {
-        Beers.upload(Upload, $scope.image, $scope.beer.image);
+      if ($scope.image) {
+        beer.image = slug($scope.beer.name) + '-' + $scope.beer.year + '.' + $scope.image.name.split('.').pop();
       }
-      Beers.editBeer(beer);
-      var beerUrl = "/beers/view/" + beer._id;
-      $location.path(beerUrl);
+      Beers.editBeer(beer)
+        .then(function(doc) {
+          if ($scope.form.image.$valid && $scope.image) {
+            Beers.upload(Upload, $scope.image, beer.image);
+          }
+          var beerUrl = "/beers/view/" + doc.data.data._id;
+          $location.path(beerUrl);
+        }, function(response) {
+          alert(response);
+        });
     }
   })
   .directive("scroll", function($window) {

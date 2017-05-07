@@ -134,7 +134,8 @@ exports.upload = function(req, res) {
 
 exports.updateBeer = function(req, res) {
   if (authorization(res, req.headers.authorization)) {
-    Beer.findByIdAndUpdate(new ObjectId(req.params.id), req.body, function(err, Beer) {
+    var BeerModel = new Beer(req.body);
+    Beer.findByIdAndUpdate(new ObjectId(req.params.id), BeerModel, function(err, Beer) {
       if (err) {
         res.status(500);
         res.json({

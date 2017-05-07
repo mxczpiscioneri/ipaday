@@ -9,10 +9,10 @@
 <div class="grid-row">
   <ul class="list list-horizontal">
     <li class="list-item grid-xs-12 grid-sm-6 grid-md-4 grid-lg-3 margin-bottom-lg" ng-repeat="beer in beers | orderBy:'name'">
-      <div class="product padding-lg">
+      <div class="product padding-lg bg-white">
         <div class="align-center">
           <a ng-href="/beers/view/{{beer._id}}">
-            <img ng-if="beer.image" src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img">
+            <img ng-if="beer.image" src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img" loaded-img>
           </a>
         </div>
         <div>

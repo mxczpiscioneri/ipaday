@@ -107,8 +107,6 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
         }
       });
 
-    equalHeight("product");
-
     window.onresize = function() {
       equalHeight("product");
     };
@@ -184,6 +182,15 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
         scope.$apply();
       });
     };
+  })
+  .directive('loadedImg', function() {
+    return {
+      link: function(scope, element, attrs) {
+        element.bind("load", function(e) {
+          equalHeight("product");
+        });
+      }
+    }
   });
 
 function slug(str) {

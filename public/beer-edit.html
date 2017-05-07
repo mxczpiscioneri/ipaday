@@ -13,11 +13,11 @@
   <div class="grid-row">
     <div class="grid-xs-6 grid-sm-3 margin-bottom-xl">
       <label class="text-sm text-default">ABV:</label>
-      <input id="abv" class="field text-field text-field-lg" type="text" ng-model="beer.ABV" required>
+      <input id="abv" class="field text-field text-field-lg" type="number" step="0.1" ng-model="beer.ABV" required>
     </div>
     <div class="grid-xs-6 grid-sm-3 margin-bottom-xl">
       <label class="text-sm text-default">IBU:</label>
-      <input id="ibu" class="field text-field text-field-lg" type="text" ng-model="beer.IBU" required>
+      <input id="ibu" class="field text-field text-field-lg" type="number" ng-model="beer.IBU" required>
     </div>
     <div class="grid-xs-12 grid-sm-6 margin-bottom-xl">
       <label class="text-sm text-default">Style:</label>

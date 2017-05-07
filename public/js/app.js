@@ -115,13 +115,15 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
   })
   .controller("NewBeerController", function($scope, $location, Beers, Upload) {
     $scope.saveBeer = function(beer) {
-      beer.image = slug($scope.beer.name) + '-' + $scope.beer.year + '.' + $scope.image.name.split('.').pop();
+      if ($scope.image) {
+        beer.image = slug($scope.beer.name) + '-' + $scope.beer.year + '.' + $scope.image.name.split('.').pop();
+      }
       Beers.createBeer(beer)
         .then(function(doc) {
           if ($scope.form.image.$valid && $scope.image) {
             Beers.upload(Upload, $scope.image, beer.image);
           }
-          var beerUrl = "/beers/" + doc.data.data._id;
+          var beerUrl = "/beers/view/" + doc.data.data._id;
           $location.path(beerUrl);
         }, function(response) {
           alert(response);

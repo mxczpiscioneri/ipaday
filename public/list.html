@@ -10,8 +10,9 @@
   <ul class="list list-horizontal">
     <li class="list-item grid-xs-12 grid-sm-6 grid-md-4 grid-lg-3 margin-bottom-lg" ng-repeat="beer in beers | orderBy:'name'">
       <div class="product padding-lg bg-white">
-        <div class="align-center">
+        <div class="align-center relative">
           <a ng-href="/beers/view/{{beer._id}}">
+            <span class="text-xs bg-secondary text-white padding-xs absolute position-top position-right bd-radius-lg">{{ beer.year }}</span>
             <img ng-if="beer.image" src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img" loaded-img>
           </a>
         </div>

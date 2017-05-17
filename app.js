@@ -32,10 +32,10 @@ app.delete('/api/users/:id', auth.isAuthenticated, users.deleteUser);
 app.get('/api/beers', beers.findAll);
 app.get('/api/beers/:year', beers.findYear);
 app.get('/api/beers/view/:id', beers.findById);
-app.post('/api/beers', beers.addBeer);
-app.post('/api/beers/upload', multipartMiddleware, beers.upload);
-app.put('/api/beers/:id', beers.updateBeer);
-app.delete('/api/beers/:id', beers.deleteBeer);
+app.post('/api/beers', auth.isAuthenticated, beers.addBeer);
+app.post('/api/beers/upload', auth.isAuthenticated, multipartMiddleware, beers.upload);
+app.put('/api/beers/:id', auth.isAuthenticated, beers.updateBeer);
+app.delete('/api/beers/:id', auth.isAuthenticated, beers.deleteBeer);
 
 app.use('*', function(req, res, next) {
 	var indexFile = path.resolve(__dirname + '/public/index.html');

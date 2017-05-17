@@ -13,7 +13,7 @@
         <div class="align-center relative">
           <a ng-href="/beers/view/{{beer._id}}">
             <span class="text-xs bg-secondary text-white padding-xs absolute position-top position-right bd-radius-lg">{{ beer.year }}</span>
-            <img ng-if="beer.image" src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img" loaded-img>
+            <img ng-if="beer.image" ng-src="{{ URL_S3 }}{{ beer.image }}" alt="{{ beer.name }}" class="img" loaded-img>
           </a>
         </div>
         <div>

@@ -65,8 +65,8 @@ exports.addUser = function(req, res) {
   if (!newUser.name || !newUser.email || !newUser.password) {
     res.status(500);
     return res.json({
-      success: false,
-      message: 'Please enter name, email and password.'
+      type: false,
+      data: 'Please enter name, email and password.'
     });
   }
 

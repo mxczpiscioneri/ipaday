@@ -1,0 +1,30 @@
+<div class="grid-row">
+  <div class="grid-xs-12 grid-sm-8 grid-sm-offset-2 grid-md-4 grid-md-offset-4">
+    <h2 class="text-xl text-default">New User</h2>
+  </div>
+</div>
+<form name="form">
+  <div class="grid-row margin-bottom-xl">
+    <div class="grid-xs-12 grid-sm-8 grid-sm-offset-2 grid-md-4 grid-md-offset-4">
+      <label class="text-sm text-default">Name:</label>
+      <input id="name" class="field text-field text-field-lg" type="text" ng-model="user.name" required>
+    </div>
+  </div>
+  <div class="grid-row margin-bottom-xl">
+    <div class="grid-xs-12 grid-sm-8 grid-sm-offset-2 grid-md-4 grid-md-offset-4">
+      <label class="text-sm text-default">Email:</label>
+      <input id="email" class="field text-field text-field-lg" type="email" ng-model="user.email" required>
+    </div>
+  </div>
+  <div class="grid-row margin-bottom-xl">
+    <div class="grid-xs-12 grid-sm-8 grid-sm-offset-2 grid-md-4 grid-md-offset-4">
+      <label class="text-sm text-default">Password:</label>
+      <input id="password" class="field text-field text-field-lg" type="password" ng-model="user.password" required>
+    </div>
+  </div>
+  <div class="grid-row margin-bottom-xl">
+    <div class="grid-xs-12 grid-sm-8 grid-sm-offset-2 grid-md-4 grid-md-offset-4">
+      <button class="btn-lg btn-primary" ng-click="saveUser()">Register</button>
+    </div>
+  </div>
+</form>

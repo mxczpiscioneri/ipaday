@@ -1,5 +1,5 @@
-angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
-  .config(function($routeProvider, $locationProvider) {
+angular.module("BeersApp", ['ngRoute', 'ngStorage', 'ngFileUpload'])
+  .config(function($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .when("/beers", {
         controller: "ListController",
@@ -21,10 +21,55 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
         controller: "EditBeerController",
         templateUrl: "beer-edit.html"
       })
+      .when("/register", {
+        controller: "NewUserController",
+        templateUrl: "register.html"
+      })
+      .when("/login", {
+        controller: "LoginController",
+        templateUrl: "login.html"
+      })
       .otherwise({
         redirectTo: "/beers"
       });
+
     $locationProvider.html5Mode(true);
+
+    // Insert Token in Header HTTP
+    $httpProvider.interceptors.push('TokenInterceptor');
+  })
+  .service('TokenInterceptor', function($sessionStorage, $location) {
+    this.request = function(config) {
+      config.headers = config.headers || {};
+      if ($sessionStorage.token) {
+        config.headers['x-access-token'] = $sessionStorage.token;
+      }
+      return config;
+    };
+    this.responseError = function(rejection) {
+      if (rejection.status === 401) {
+        $location.path('/');
+      }
+      return rejection;
+    };
+  })
+  .service("Users", function($http) {
+    this.createUser = function(user) {
+      return $http.post("/api/users", user)
+        .then(function(response) {
+          return response;
+        }, function(response) {
+          return null;
+        });
+    }
+    this.login = function(user) {
+      return $http.post("/api/authenticate", user)
+        .then(function(response) {
+          return response;
+        }, function(response) {
+          return null;
+        });
+    }
   })
   .service("Beers", function($http) {
     this.getBeers = function(year) {
@@ -166,6 +211,58 @@ angular.module("BeersApp", ['ngRoute', 'ngFileUpload'])
           }
           var beerUrl = "/beers/view/" + doc.data.data._id;
           $location.path(beerUrl);
+        }, function(response) {
+          alert(response);
+        });
+    }
+  })
+  .controller("NewUserController", function($scope, $location, $sessionStorage, Users) {
+    delete $sessionStorage.user;
+    delete $sessionStorage.token;
+
+    $scope.saveUser = function() {
+      if (!$scope.form.$valid) {
+        return;
+      }
+
+      Users.createUser($scope.user)
+        .then(function(data) {
+          // Login
+          Users.login($scope.user)
+            .then(function(data) {
+              if (data.data.type) {
+                $sessionStorage.user = data.data.user;
+                $sessionStorage.token = data.data.token;
+                $location.path("/beers");
+              } else {
+                alert(data.data.data);
+              }
+            }, function(response) {
+              alert(response);
+            });
+        }, function(response) {
+          alert(response);
+        });
+    }
+  })
+  .controller("LoginController", function($scope, $location, $sessionStorage, Users) {
+    delete $sessionStorage.user;
+    delete $sessionStorage.token;
+
+    $scope.login = function() {
+      if (!$scope.form.$valid) {
+        return;
+      }
+
+      Users.login($scope.user)
+        .then(function(data) {
+          if (data.type) {
+            $sessionStorage.user = data.user;
+            $sessionStorage.token = data.token;
+            $location.path("/beers");
+          } else {
+            alert(data.data);
+          }
         }, function(response) {
           alert(response);
         });

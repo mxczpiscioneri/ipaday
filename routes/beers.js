@@ -195,17 +195,3 @@ exports.deleteBeer = function(req, res) {
     });
   }
 }
-
-function authorization(res, headersAuthorization) {
-  var auth = new Buffer(process.env.AUTH_USER + ":" + process.env.AUTH_PASS).toString("base64");
-
-  if (auth != headersAuthorization) {
-    res.status(401);
-    res.json({
-      type: false,
-      data: "Erro 401: UNAUTHORIZED ACCESS"
-    });
-    return false;
-  }
-  return true;
-}
